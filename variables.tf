@@ -1,5 +1,15 @@
-variable "name" {
+variable "tenant" {
   description = "Tenant name."
+  type        = string
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9_.-]{0,64}$", var.tenant))
+    error_message = "Allowed characters: `a`-`z`, `A`-`Z`, `0`-`9`, `_`, `.`, `-`. Maximum characters: 64."
+  }
+}
+
+variable "name" {
+  description = "DHCP option policy name."
   type        = string
 
   validation {
@@ -8,24 +18,44 @@ variable "name" {
   }
 }
 
-variable "alias" {
-  description = "Tenant alias."
-  type        = string
-  default     = ""
-
-  validation {
-    condition     = can(regex("^[a-zA-Z0-9_.-]{0,64}$", var.alias))
-    error_message = "Allowed characters: `a`-`z`, `A`-`Z`, `0`-`9`, `_`, `.`, `-`. Maximum characters: 64."
-  }
-}
-
 variable "description" {
-  description = "Tenant description."
+  description = "Description."
   type        = string
   default     = ""
 
   validation {
     condition     = can(regex("^[a-zA-Z0-9\\!#$%()*,-./:;@ _{|}~?&+]{0,128}$", var.description))
     error_message = "Allowed characters: `a`-`z`, `A`-`Z`, `0`-`9`, `\\`, `!`, `#`, `$`, `%`, `(`, `)`, `*`, `,`, `-`, `.`, `/`, `:`, `;`, `@`, ` `, `_`, `{`, `|`, }`, `~`, `?`, `&`, `+`. Maximum characters: 128."
+  }
+}
+
+variable "options" {
+  description = "List of DHCP options."
+  type = list(object({
+    id   = optional(number)
+    data = optional(string)
+    name = string
+  }))
+  default = []
+
+  validation {
+    condition = alltrue([
+      for o in var.options : o.id == null || try(o.id >= 1 && o.id <= 255, false)
+    ])
+    error_message = "`id`: Minimum value: `1`. Maximum value: `255`."
+  }
+
+  validation {
+    condition = alltrue([
+      for o in var.options : o.data == null || can(regex("^[a-zA-Z0-9\\!#$%()*,-./:;@ _{|}~?&+]{0,64}$", o.data))
+    ])
+    error_message = "`data`: Allowed characters: `a`-`z`, `A`-`Z`, `0`-`9`, `\\`, `!`, `#`, `$`, `%`, `(`, `)`, `*`, `,`, `-`, `.`, `/`, `:`, `;`, `@`, ` `, `_`, `{`, `|`, }`, `~`, `?`, `&`, `+`. Maximum characters: 64."
+  }
+
+  validation {
+    condition = alltrue([
+      for o in var.options : can(regex("^[a-zA-Z0-9_.-]{0,64}$", o.name))
+    ])
+    error_message = "`name`: Allowed characters: `a`-`z`, `A`-`Z`, `0`-`9`, `_`, `.`, `-`. Maximum characters: 64."
   }
 }

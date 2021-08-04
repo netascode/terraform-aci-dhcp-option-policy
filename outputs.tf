@@ -1,9 +1,9 @@
 output "dn" {
-  value       = aci_rest.fvTenant.id
-  description = "Distinguished name of `fvTenant` object."
+  value       = aci_rest.dhcpOptionPol.id
+  description = "Distinguished name of `dhcpOptionPol` object."
 }
 
 output "name" {
-  value       = aci_rest.fvTenant.content.name
-  description = "Tenant name."
+  value       = aci_rest.dhcpOptionPol.content.name
+  description = "DHCP option policy name."
 }

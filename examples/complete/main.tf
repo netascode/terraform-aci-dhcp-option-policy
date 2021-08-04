@@ -1,7 +1,12 @@
-module "aci_scaffolding" {
-  source = "netascode/scaffolding/aci"
+module "aci_dhcp_option_policy" {
+  source = "netascode/dhcp-option-policy/aci"
 
-  name        = "ABC"
-  alias       = "ABC-ALIAS"
+  tenant      = "ABC"
+  name        = "DHCP-OPTION1"
   description = "My Description"
+  options = [{
+    id   = 1
+    data = "DATA1"
+    name = "OPTION1"
+  }]
 }
