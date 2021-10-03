@@ -12,7 +12,8 @@ Location in GUI:
 
 ```hcl
 module "aci_dhcp_option_policy" {
-  source = "netascode/dhcp-option-policy/aci"
+  source  = "netascode/dhcp-option-policy/aci"
+  version = ">= 0.0.1"
 
   tenant      = "ABC"
   name        = "DHCP-OPTION1"
@@ -46,7 +47,7 @@ module "aci_dhcp_option_policy" {
 | <a name="input_tenant"></a> [tenant](#input\_tenant) | Tenant name. | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | DHCP option policy name. | `string` | n/a | yes |
 | <a name="input_description"></a> [description](#input\_description) | Description. | `string` | `""` | no |
-| <a name="input_options"></a> [options](#input\_options) | List of DHCP options. | <pre>list(object({<br>    id   = optional(number)<br>    data = optional(string)<br>    name = string<br>  }))</pre> | `[]` | no |
+| <a name="input_options"></a> [options](#input\_options) | List of DHCP options. | <pre>list(object({<br>    name = string<br>    id   = optional(number)<br>    data = optional(string)<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 

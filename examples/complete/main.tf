@@ -1,5 +1,6 @@
 module "aci_dhcp_option_policy" {
-  source = "netascode/dhcp-option-policy/aci"
+  source  = "netascode/dhcp-option-policy/aci"
+  version = ">= 0.0.1"
 
   tenant      = "ABC"
   name        = "DHCP-OPTION1"
