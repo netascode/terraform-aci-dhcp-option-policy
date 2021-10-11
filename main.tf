@@ -9,7 +9,7 @@ resource "aci_rest" "dhcpOptionPol" {
 
 resource "aci_rest" "dhcpOption" {
   for_each   = { for opt in var.options : opt.name => opt }
-  dn         = "${aci_rest.dhcpOptionPol.id}/opt-${each.value.name}"
+  dn         = "${aci_rest.dhcpOptionPol.dn}/opt-${each.value.name}"
   class_name = "dhcpOption"
   content = {
     id   = each.value.id != null ? each.value.id : ""
