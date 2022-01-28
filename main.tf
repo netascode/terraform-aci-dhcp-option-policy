@@ -1,4 +1,4 @@
-resource "aci_rest" "dhcpOptionPol" {
+resource "aci_rest_managed" "dhcpOptionPol" {
   dn         = "uni/tn-${var.tenant}/dhcpoptpol-${var.name}"
   class_name = "dhcpOptionPol"
   content = {
@@ -7,9 +7,9 @@ resource "aci_rest" "dhcpOptionPol" {
   }
 }
 
-resource "aci_rest" "dhcpOption" {
+resource "aci_rest_managed" "dhcpOption" {
   for_each   = { for opt in var.options : opt.name => opt }
-  dn         = "${aci_rest.dhcpOptionPol.dn}/opt-${each.value.name}"
+  dn         = "${aci_rest_managed.dhcpOptionPol.dn}/opt-${each.value.name}"
   class_name = "dhcpOption"
   content = {
     id   = each.value.id != null ? each.value.id : ""

@@ -5,13 +5,13 @@ terraform {
     }
 
     aci = {
-      source  = "netascode/aci"
-      version = ">=0.2.0"
+      source  = "CiscoDevNet/aci"
+      version = ">=2.0.0"
     }
   }
 }
 
-resource "aci_rest" "fvTenant" {
+resource "aci_rest_managed" "fvTenant" {
   dn         = "uni/tn-TF"
   class_name = "fvTenant"
 }
@@ -19,7 +19,7 @@ resource "aci_rest" "fvTenant" {
 module "main" {
   source = "../.."
 
-  tenant      = aci_rest.fvTenant.content.name
+  tenant      = aci_rest_managed.fvTenant.content.name
   name        = "DHCP-OPTION1"
   description = "My Description"
   options = [{
@@ -29,7 +29,7 @@ module "main" {
   }]
 }
 
-data "aci_rest" "dhcpOptionPol" {
+data "aci_rest_managed" "dhcpOptionPol" {
   dn = module.main.dn
 
   depends_on = [module.main]
@@ -40,19 +40,19 @@ resource "test_assertions" "dhcpOptionPol" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.dhcpOptionPol.content.name
+    got         = data.aci_rest_managed.dhcpOptionPol.content.name
     want        = module.main.name
   }
 
   equal "descr" {
     description = "descr"
-    got         = data.aci_rest.dhcpOptionPol.content.descr
+    got         = data.aci_rest_managed.dhcpOptionPol.content.descr
     want        = "My Description"
   }
 }
 
-data "aci_rest" "dhcpOption" {
-  dn = "${data.aci_rest.dhcpOptionPol.id}/opt-OPTION1"
+data "aci_rest_managed" "dhcpOption" {
+  dn = "${data.aci_rest_managed.dhcpOptionPol.id}/opt-OPTION1"
 
   depends_on = [module.main]
 }
@@ -62,19 +62,19 @@ resource "test_assertions" "dhcpOption" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.dhcpOption.content.name
+    got         = data.aci_rest_managed.dhcpOption.content.name
     want        = "OPTION1"
   }
 
   equal "id" {
     description = "id"
-    got         = data.aci_rest.dhcpOption.content.id
+    got         = data.aci_rest_managed.dhcpOption.content.id
     want        = "1"
   }
 
   equal "data" {
     description = "data"
-    got         = data.aci_rest.dhcpOption.content.data
+    got         = data.aci_rest_managed.dhcpOption.content.data
     want        = "DATA1"
   }
 }
