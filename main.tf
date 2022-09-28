@@ -12,8 +12,8 @@ resource "aci_rest_managed" "dhcpOption" {
   dn         = "${aci_rest_managed.dhcpOptionPol.dn}/opt-${each.value.name}"
   class_name = "dhcpOption"
   content = {
-    id   = each.value.id != null ? each.value.id : ""
-    data = each.value.data != null ? each.value.data : ""
+    id   = each.value.id
+    data = each.value.data
     name = each.value.name
   }
 }

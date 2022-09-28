@@ -33,8 +33,8 @@ variable "options" {
   description = "List of DHCP options."
   type = list(object({
     name = string
-    id   = optional(number)
-    data = optional(string)
+    id   = optional(number, 0)
+    data = optional(string, "")
   }))
   default = []
 

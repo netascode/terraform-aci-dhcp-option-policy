@@ -13,7 +13,7 @@ Location in GUI:
 ```hcl
 module "aci_dhcp_option_policy" {
   source  = "netascode/dhcp-option-policy/aci"
-  version = ">= 0.1.0"
+  version = ">= 0.2.0"
 
   tenant      = "ABC"
   name        = "DHCP-OPTION1"
@@ -30,7 +30,7 @@ module "aci_dhcp_option_policy" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_aci"></a> [aci](#requirement\_aci) | >= 2.0.0 |
 
 ## Providers
@@ -46,7 +46,7 @@ module "aci_dhcp_option_policy" {
 | <a name="input_tenant"></a> [tenant](#input\_tenant) | Tenant name. | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | DHCP option policy name. | `string` | n/a | yes |
 | <a name="input_description"></a> [description](#input\_description) | Description. | `string` | `""` | no |
-| <a name="input_options"></a> [options](#input\_options) | List of DHCP options. | <pre>list(object({<br>    name = string<br>    id   = optional(number)<br>    data = optional(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_options"></a> [options](#input\_options) | List of DHCP options. | <pre>list(object({<br>    name = string<br>    id   = optional(number, 0)<br>    data = optional(string, "")<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 
